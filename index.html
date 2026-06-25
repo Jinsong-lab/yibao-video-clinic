@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>职工医保视频门诊服务</title>
+<style>
+:root {
+  /* 医保专业蓝色系 */
+  --primary:       oklch(50% 0.16 230);          /* 主色调 - 医保蓝 */
+  --primary-mid:   oklch(65% 0.14 230);          /* 中等蓝 - 按钮/链接 */
+  --primary-light: oklch(92% 0.04 230);          /* 浅蓝 - 背景 */
+  --primary-pale:  oklch(96% 0.02 230);          /* 极浅蓝 - 卡片 */
+  --accent:        oklch(60% 0.20 160);          /* 强调色 - 突出元素 */
+
+  /* 基础色彩 */
+  --bg:      oklch(98% 0.002 250);               /* 页面背景 - 微暖白 */
+  --surface: oklch(100% 0 0);                    /* 卡片表面 - 纯白 */
+  --fg:      oklch(20% 0.02 250);                /* 主要文字 - 深灰 */
+  --muted:   oklch(48% 0.015 250);                /* 次要文字 - 中灰 */
+  --border:  oklch(88% 0.008 250);               /* 边框线 - 浅灰 */
+  --success: oklch(52% 0.15 145);                /* 成功色 */
+  --warning: oklch(70% 0.15 85);                 /* 警告色 */
+  --danger:  oklch(52% 0.18 25);                 /* 危险色 */
+
+  /* 字体 */
+  --font-display: 'Noto Serif SC', 'Source Han Serif SC', 'PingFang SC', serif;
+  --font-body:    -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* 圆角 */
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);line-height:1.8;font-size:1.05rem;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--primary-mid);text-decoration:none}
+
+.container{max-width:780px;margin:0 auto;padding:0 24px}
+.container--wide{max-width:1120px}
+
+/* ---- Top Banner ---- */
+.top-banner{background:var(--primary);color:#fff;padding:14px 24px;text-align:center;font-size:.88rem;letter-spacing:.04em;position:relative;overflow:hidden}
+.top-banner::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--surface),transparent)}
+.top-banner::after{content:'';position:absolute;bottom:0;right:0;width:60px;height:60px;background:radial-gradient(circle,rgba(255,255,255,.2) 0%,transparent 70%);border-radius:50%}
+.top-banner-content{display:flex;align-items:center;justify-content:center;gap:8px}
+.top-badge{display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.top-badge-icon{width:18px;height:18;background:#fff;mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M9 11l3 3L22 4'%3E%3Cpath d='M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'%3E%3C/svg%3E");-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M9 11l3 3L22 4'%3E%3Cpath d='M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'%3E%3C/svg%3E");mask-size:cover;-webkit-mask-size:cover}
+
+/* ---- Nav ---- */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.nav-inner{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:32px;height:64px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-brand{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--primary);white-space:nowrap;flex-shrink:0}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-size:.88rem;color:var(--muted);white-space:nowrap;padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;position:relative}
+.nav-links a::before{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--primary);transition:width 0.3s}
+.nav-links a:hover,.nav-links a.active{color:var(--primary);text-decoration:none}
+.nav-links a:hover::before,.nav-links a.active::before{width:100%}
+.nav-security{display:flex;align-items:center;gap:8px;padding-left:32px;margin-left:auto;font-size:.82rem;color:var(--muted)}
+.security-icon{width:16px;height:16px;background:var(--success);mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'%3E%3Cpath d='M2 17l10 5 10-5'%3E%3Cpath d='M2 12l10 5 10-5'%3E%3C/svg%3E");-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'%3E%3Cpath d='M2 17l10 5 10-5'%3E%3Cpath d='M2 12l10 5 10-5'%3E%3C/svg%3E");mask-size:cover;-webkit-mask-size:cover}
+
+/* ---- Hero ---- */
+.hero{background:var(--primary);color:#fff;padding:72px 0 80px;position:relative;overflow-hidden}
+.hero::before{content:'';position:absolute;left:-100px;bottom:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 60%);pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:680px}
+.hero .kicker{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.15em;opacity:.7;margin-bottom:20px;text-transform:uppercase}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);padding:6px 16px;border-radius:999px;font-size:.8rem;margin-bottom:24px;backdrop-filter:blur(10px)}
+.hero .badge-icon{width:20px;height:20px;background:#fff;mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M9 2h6l3 7H6l3-7z'/%3E%3Crect x='4' y='9' width='16' height='13' rx='2'/%3E%3Ccircle cx='12' cy='16' r='2'/%3E%3C/svg%3E");-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M9 2h6l3 7H6l3-7z'/%3E%3Crect x='4' y='9' width='16' height='13' rx='2'/%3E%3Ccircle cx='12' cy='16' r='2'/%3E%3C/svg%3E");mask-size:cover;-webkit-mask-size:cover}
+.hero h1{font-family:var(--font-body);font-size:2.5rem;font-weight:700;line-height:1.2;margin-bottom:24px;letter-spacing:.02em;position:relative}
+.hero h1::after{content:'';position:absolute;bottom:-12px;left:0;width:80px;height:4px;background:#fff;border-radius:2px}
+.hero .standfirst{font-size:1.1rem;line-height:1.9;opacity:.9;max-width:540px;font-weight:400}
+.hero-formula{margin-top:32px;display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:16px 24px;font-size:.95rem;backdrop-filter:blur(10px)}
+
+/* Hero image styling */
+.hero-image{position:absolute;bottom:0;right:0;width:40%;height:100%;box-sizing:border-box;z-index:1;transition:opacity 0.3s}
+.hero-doctor-img{width:100%;height:100%;object-fit:contain;object-position:center bottom;opacity:0.9}
+
+/* Hero text alignment */
+.hero-content{max-width:100%;padding-left:24px;position:relative;z-index:2}
+.hero-text{padding-left:0}
+.hero-formula .op{opacity:.6;font-weight:300;font-size:.9rem}
+.hero-formula .highlight{background:rgba(255,255,255,.2);padding:4px 16px;border-radius:6px;font-weight:600;font-size:1rem;position:relative;z-index:1}
+
+/* ---- Section ---- */
+.section{padding:64px 0}
+.section--alt{background:var(--primary-pale)}
+.section+.section{border-top:1px solid var(--border)}
+.section--alt+.section,.section+.section--alt{border-top:none}
+.section-label{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.1em;color:var(--primary);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:20px;height:20px;background:var(--primary);border-radius:50%;opacity:.1;flex-shrink:0}
+.section h2{font-family:var(--font-display);font-size:clamp(1.6rem,3.5vw,2rem);font-weight:700;line-height:1.3;margin-bottom:40px;letter-spacing:.01em}
+.section h2 .sub{display:block;font-size:1rem;font-family:var(--font-body);font-weight:400;color:var(--muted);margin-top:12px;letter-spacing:0;line-height:1.6}
+
+/* ---- Features ---- */
+.features{display:grid;gap:32px}
+.feature{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:all 0.3s;position:relative;overflow:hidden}
+.feature::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--primary);opacity:0;transition:opacity 0.3s}
+.feature:hover{box-shadow:0 8px 32px rgba(79,70,229,0.15);transform:translateY(-2px)}
+.feature:hover::before{opacity:1}
+.feature-icon{width:56px;height:56px;border-radius:var(--radius-lg);display:grid;place-items:center;margin-bottom:24px;position:relative;background:linear-gradient(135deg,var(--primary-light) 0%,var(--primary-pale) 100%);box-shadow:0 4px 12px rgba(79,70,229,0.1)}
+.feature-icon.blue{color:var(--primary)}
+.feature-icon.teal{color:oklch(55% 0.18 165)}
+.feature-icon.green{color:oklch(50% 0.14 145)}
+.feature-icon svg{width:28px;height:28px;stroke-width:1.5}
+.feature h3{font-family:var(--font-display);font-size:1.3rem;font-weight:700;margin-bottom:16px;line-height:1.5;color:var(--fg)}
+.feature p{color:var(--muted);font-size:1.05rem;line-height:1.95}
+.feature .tag{display:inline-block;position:absolute;top:20px;right:20px;font-size:.8rem;color:var(--primary);background:var(--primary-pale);padding:6px 16px;border-radius:999px;font-weight:500}
+.feature .quote-mark{position:absolute;bottom:-20px;right:20px;font-size:6rem;font-family:var(--font-display);color:var(--primary);opacity:.05;pointer-events:none}
+
+/* ---- Scenarios ---- */
+.scenarios{display:grid;gap:24px}
+.scenario{position:relative;border-radius:6px;overflow:hidden;height:120px;display:flex;flex-direction:column;justify-content:flex-end;transition:height 0.45s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s}
+.scenario:hover{height:180px;box-shadow:0 12px 40px rgba(0,0,0,0.2)}
+.scenario-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scenario-gradient{position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(to top,rgba(0,0,0,0.78) 0%,rgba(0,0,0,0.35) 40%,transparent 100%);z-index:1;transition:height 0.45s cubic-bezier(0.4,0,0.2,1)}
+.scenario:hover .scenario-gradient{height:85%}
+.scenario-icon{position:absolute;top:10px;right:10px;height:calc(100% / 4);width:auto;z-index:3;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.2))}
+.scenario-body{position:relative;z-index:2;padding:16px;color:#fff}
+.scenario-body h3{font-size:1.1rem;font-weight:700;line-height:1.35;margin:0;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.4)}
+.scenario-body h3 em{font-style:normal;color:rgba(255,255,255,0.7);font-weight:400}
+.scenario-body p{color:rgba(255,255,255,0.85);font-size:.82rem;line-height:1.65;margin:0;max-height:0;overflow:hidden;opacity:0;transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1),opacity 0.45s ease,margin-top 0.45s ease}
+.scenario:hover .scenario-body p{max-height:120px;opacity:1;margin-top:8px}
+
+/* ======== INTERACTIVE FLOW + SCREENS ======== */
+.flow-section{padding:56px 0;background:var(--primary-pale)}
+.flow-layout{display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:start}
+
+/* Left: steps */
+.flow-stages{display:flex;flex-direction:column;gap:0}
+.flow-stage{position:relative}
+.flow-stage-header{display:flex;align-items:center;gap:14px;padding:16px 0;cursor:pointer;user-select:none;transition:all 0.3s}
+.flow-stage-header:hover{background:var(--primary-pale);margin:0 calc(-8px);padding:16px 8px;border-radius:var(--radius)}
+.flow-stage-marker{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-mono);font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0;position:relative;z-index:2;transition:all 0.3s;box-shadow:0 4px 12px rgba(79,70,229,0.2)}
+.flow-stage-marker.s1{background:var(--primary)}
+.flow-stage-marker.s2{background:oklch(65% 0.14 230)}
+.flow-stage-marker.s3{background:oklch(50% 0.16 230)}
+.flow-stage-header:hover .flow-stage-marker{transform:scale(1.15);box-shadow:0 6px 16px rgba(79,70,229,0.3)}
+.flow-stage-title{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--fg);transition:color 0.3s}
+.flow-stage-header:hover .flow-stage-title{color:var(--primary-mid)}
+.flow-stage-badge{position:absolute;top:-10px;right:-10px;width:20px;height:20px;background:var(--success);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 8px rgba(23,163,74,0.3);opacity:0;transform:scale(0);transition:all 0.3s}
+.flow-stage.completed .flow-stage-badge{opacity:1;transform:scale(1)}
+
+/* Vertical connector line between stages */
+.flow-stage:not(:last-child)::after{content:'';position:absolute;left:17px;top:48px;bottom:0;width:2px;background:var(--border)}
+
+/* Steps within a stage */
+.flow-steps{padding-left:50px;padding-bottom:8px;display:flex;flex-direction:column;gap:0}
+.flow-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:var(--radius);cursor:pointer;transition:background .15s,opacity .15s;position:relative}
+.flow-step:hover{background:rgba(255,255,255,.7)}
+.flow-step.active{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.flow-step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);margin-top:8px;flex-shrink:0;transition:background .2s,transform .2s}
+.flow-step.active .flow-step-dot{background:var(--primary);transform:scale(1.4)}
+.flow-step-text{font-size:.88rem;color:var(--muted);line-height:1.6;transition:color .2s}
+.flow-step.active .flow-step-text{color:var(--fg);font-weight:600}
+.flow-step .step-img-hint{display:none;font-size:.72rem;color:var(--primary-mid);margin-top:2px}
+.flow-step.active .step-img-hint{display:block}
+
+/* Right: screen preview (no phone frame) */
+.flow-phone{position:sticky;top:80px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.screen-card{width:260px;aspect-ratio:9/19.5;border-radius:var(--radius-lg);overflow:hidden;background:#f5f5f5;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.08);transition:transform .3s,box-shadow .3s}
+.screen-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.screen-card img{width:100%;height:100%;object-fit:cover;object-position:top;transition:opacity .35s}
+.screen-card img.loading{opacity:.3}
+.screen-card img.loaded{opacity:1}
+.phone-caption{text-align:center;font-size:.82rem;color:var(--muted);font-weight:500;min-height:1.4em;transition:opacity .2s}
+.phone-nav{display:flex;gap:8px;align-items:center}
+.phone-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;font-size:.85rem;color:var(--muted);transition:all .15s}
+.phone-nav button:hover:not(:disabled){background:var(--primary);color:#fff;border-color:var(--primary)}
+.phone-nav button:disabled{opacity:.3;cursor:default}
+.phone-nav .phone-counter{font-family:var(--font-mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;min-width:48px;text-align:center}
+
+/* Mini progress bar */
+.phone-progress{width:200px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.phone-progress-bar{height:100%;background:var(--primary);border-radius:2px;transition:width .35s}
+
+/* ---- FAQ ---- */
+.faq-list{display:grid;gap:0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:first-child{border-top:1px solid var(--border)}
+.faq-item{transition:background 0.3s}
+.faq-item:hover{background:var(--primary-pale)}
+.faq-q{width:100%;background:none;border:none;text-align:left;padding:20px 0;cursor:pointer;font-family:var(--font-body);font-size:1rem;font-weight:600;color:var(--fg);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;line-height:1.6;transition:color .15s}
+.faq-q:hover{color:var(--primary-mid)}
+.faq-q .arrow{flex-shrink:0;font-size:.75rem;transition:transform .25s;color:var(--muted);margin-top:4px}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+.faq-item.open .faq-q{color:var(--primary)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;color:var(--muted);font-size:.95rem;line-height:1.9}
+.faq-item.open .faq-a{max-height:800px;padding-bottom:20px}
+.faq-a p+p{margin-top:12px}
+.faq-a .note{margin-top:12px;padding:16px 20px;background:var(--primary-pale);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;font-size:.9rem;line-height:1.8;color:var(--fg);position:relative}
+.faq-a .note::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--border);opacity:.5}
+.faq-a .note+.note{margin-top:12px}
+.faq-a .note strong{color:var(--primary)}
+.faq-a .icon{display:inline-block;width:20px;height:20px;background:var(--primary-pale);border-radius:50%;margin-right:8px;vertical-align:middle;opacity:.8}
+
+/* ---- Fee Table ---- */
+.fee-table-wrap{overflow-x:auto;margin:20px 0}
+.fee-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.fee-table th{text-align:left;padding:10px 16px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted);border-bottom:2px solid var(--primary)}
+.fee-table td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--muted)}
+.fee-table td:first-child{color:var(--fg);font-weight:600;white-space:nowrap}
+
+/* ---- CTA ---- */
+.cta{background:var(--primary);color:#fff;padding:48px 0;text-align:center}
+.cta h2{font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:12px}
+.cta p{opacity:.85;font-size:.95rem;margin-bottom:24px}
+.cta-button{display:inline-block;padding:12px 32px;background:#fff;color:var(--primary);font-weight:700;font-size:.95rem;border-radius:var(--radius);text-decoration:none;transition:transform .15s,box-shadow .15s}
+.cta-button:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15);text-decoration:none}
+
+/* ---- Footer ---- */
+.footer{padding:32px 0;border-top:1px solid var(--border);text-align:center;font-size:.75rem;color:var(--muted);font-family:var(--font-mono);letter-spacing:.04em;line-height:1.8}
+
+/* ---- Responsive ---- */
+@media(min-width:640px){.features{grid-template-columns:1fr 1fr 1fr}}
+@media(min-width:768px){.scenarios{grid-template-columns:1fr 1fr}}
+@media(max-width:1023px){
+  .hero-image{width:35%}
+}
+@media(max-width:767px){
+  .flow-layout{grid-template-columns:1fr;gap:32px}
+  .flow-phone{position:static;order:-1}
+  .screen-card{width:200px}
+  .hero{padding:48px 0 56px}
+  .section,.flow-section{padding:40px 0}
+  .nav-links{gap:16px}
+  .hero-image{width:30%}
+}
+@media(max-width:639px){
+  .hero-image{display:none}
+}
+
+/* 图标悬浮显示效果 */
+.feature-icon-hover {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.feature:hover .feature-icon-hover {
+  opacity: 0.8;
+  visibility: visible;
+}
+
+/* 动态发光粒子效果 */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 30%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float 10s infinite ease-in-out;
+}
+
+.particle-1 {
+  width: 4px;
+  height: 4px;
+  top: 18%;
+  left: 8%;
+  animation-delay: 0s;
+  animation-duration: 8s;
+}
+
+.particle-2 {
+  width: 6px;
+  height: 6px;
+  top: 55%;
+  left: 78%;
+  animation-delay: 1.5s;
+  animation-duration: 10s;
+}
+
+.particle-3 {
+  width: 3px;
+  height: 3px;
+  top: 75%;
+  left: 28%;
+  animation-delay: 3s;
+  animation-duration: 7s;
+}
+
+.particle-4 {
+  width: 5px;
+  height: 5px;
+  top: 28%;
+  left: 68%;
+  animation-delay: 4.5s;
+  animation-duration: 12s;
+}
+
+.particle-5 {
+  width: 4px;
+  height: 4px;
+  top: 48%;
+  left: 18%;
+  animation-delay: 6s;
+  animation-duration: 9s;
+}
+
+.particle-6 {
+  width: 7px;
+  height: 7px;
+  top: 68%;
+  left: 58%;
+  animation-delay: 7.5s;
+  animation-duration: 11s;
+}
+
+.particle-7 {
+  width: 3px;
+  height: 3px;
+  top: 38%;
+  left: 88%;
+  animation-delay: 9s;
+  animation-duration: 8s;
+}
+
+.particle-8 {
+  width: 5px;
+  height: 5px;
+  top: 12%;
+  left: 48%;
+  animation-delay: 10.5s;
+  animation-duration: 10s;
+}
+
+.particle-9 {
+  width: 4px;
+  height: 4px;
+  top: 85%;
+  left: 15%;
+  animation-delay: 1s;
+  animation-duration: 6s;
+}
+
+.particle-10 {
+  width: 6px;
+  height: 6px;
+  top: 35%;
+  left: 42%;
+  animation-delay: 2.5s;
+  animation-duration: 13s;
+}
+
+.particle-11 {
+  width: 3px;
+  height: 3px;
+  top: 8%;
+  left: 72%;
+  animation-delay: 5.5s;
+  animation-duration: 9s;
+}
+
+.particle-12 {
+  width: 5px;
+  height: 5px;
+  top: 62%;
+  left: 38%;
+  animation-delay: 8s;
+  animation-duration: 7s;
+}
+
+.particle-13 {
+  width: 4px;
+  height: 4px;
+  top: 22%;
+  left: 55%;
+  animation-delay: 3.5s;
+  animation-duration: 14s;
+}
+
+.particle-14 {
+  width: 2px;
+  height: 2px;
+  top: 45%;
+  left: 8%;
+  animation-delay: 6.5s;
+  animation-duration: 9s;
+}
+
+.particle-15 {
+  width: 6px;
+  height: 6px;
+  top: 78%;
+  left: 75%;
+  animation-delay: 0.5s;
+  animation-duration: 11s;
+}
+
+.particle-16 {
+  width: 3px;
+  height: 3px;
+  top: 15%;
+  left: 32%;
+  animation-delay: 4s;
+  animation-duration: 8s;
+}
+
+.particle-17 {
+  width: 5px;
+  height: 5px;
+  top: 52%;
+  left: 82%;
+  animation-delay: 7s;
+  animation-duration: 12s;
+}
+
+.particle-18 {
+  width: 4px;
+  height: 4px;
+  top: 90%;
+  left: 55%;
+  animation-delay: 2s;
+  animation-duration: 10s;
+}
+
+.particle-19 {
+  width: 2px;
+  height: 2px;
+  top: 32%;
+  left: 22%;
+  animation-delay: 9.5s;
+  animation-duration: 6s;
+}
+
+.particle-20 {
+  width: 5px;
+  height: 5px;
+  top: 5%;
+  left: 65%;
+  animation-delay: 5s;
+  animation-duration: 8s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-50px) translateX(35px) scale(1.3);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-35px) translateX(-25px) scale(0.85);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translateY(-65px) translateX(20px) scale(1.15);
+    opacity: 0.8;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Banner -->
+<div class="top-banner">职工医保在线服务 · 挂号费 + 药品费实时医保结算</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">医保视频门诊</div>
+    <ul class="nav-links">
+      <li><a href="#features">服务介绍</a></li>
+      <li><a href="#scenarios">适用场景</a></li>
+      <li><a href="#flow">就诊流程</a></li>
+      <li><a href="#faq">常见问题</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="particles-container">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+    <div class="particle particle-7"></div>
+    <div class="particle particle-8"></div>
+    <div class="particle particle-9"></div>
+    <div class="particle particle-10"></div>
+    <div class="particle particle-11"></div>
+    <div class="particle particle-12"></div>
+    <div class="particle particle-13"></div>
+    <div class="particle particle-14"></div>
+    <div class="particle particle-15"></div>
+    <div class="particle particle-16"></div>
+    <div class="particle particle-17"></div>
+    <div class="particle particle-18"></div>
+    <div class="particle particle-19"></div>
+    <div class="particle particle-20"></div>
+  </div>
+  <div class="container">
+    <div class="hero-text">
+      <p class="kicker">职工医保 · 在线服务</p>
+      <h1 style="font-family: Helvetica, Arial, sans-serif; font-size: 59px;">医保视频门诊</h1>
+      <p class="standfirst">全程打通医保支付——挂号费、药品费按参保地政策实时结算，个人仅承担自付部分。不用跑医院，手机就能完成医保问诊开药。</p>
+      <div class="hero-formula">
+        <span class="highlight">医生诊断</span>
+        <span class="op">+</span>
+        <span class="highlight">统筹报销</span>
+        <span class="op">+</span>
+        <span class="highlight">计入年度累计</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="mqt56pn4-hero-doctor2.png" alt="手机医生" class="hero-doctor-img">
+    </div>
+  </div>
+</header>
+
+<!-- 一、服务介绍 -->
+<section class="section" id="features">
+  <div class="container container--wide">
+    <p class="section-label">01 服务介绍</p>
+    <h2>三大核心能力</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6l3 7H6l3-7z"></path><rect x="4" y="9" width="16" height="13" rx="2"></rect><circle cx="12" cy="16" r="2"></circle></svg>
+        </div>
+        <img src="mqt43pe4-mqsy8e0b-医保图标.svg" alt="医保图标" class="feature-icon-hover" style="position: absolute; top: 20px; right: 20px; height: 60px; width: auto; opacity: 0.8;">
+        <h3>医保码一键授权，视频直连医生</h3>
+        <p>刷医保就能视频看医生，执业医师面对面问诊，医保统筹基金和个人账户共同支付，每一笔费用都计入年度累计。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon teal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2"></rect></svg>
+        </div>
+        <img src="mqt43pe3-mqsy8e0b-视频医生.svg" alt="视频医生图标" class="feature-icon-hover" style="position: absolute; top: 20px; right: 20px; height: 60px; width: auto; opacity: 0.8;">
+        <h3>24小时视频门诊，免预约随时就诊</h3>
+        <p>7×24 小时服务，免预约免排队。工作间隙、差旅途中或深夜不适，挂号后一键呼叫视频医生，就医时间压缩至分钟级。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+        </div>
+        <img src="mqt43pe4-mqsy8e0b-送药图标.svg" alt="送药图标" class="feature-icon-hover" style="position: absolute; top: 24px; right: 20px; height: 52px; width: auto; opacity: 0.8;">
+        <h3>医保结算 · 送药到家</h3>
+        <p>医生在线开方，优先选择医保目录内药品；系统自动区分统筹与个人账户，费用实时呈现。药品由院内药房经顺丰直发到家。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 二、适用场景 -->
+<section class="section" id="scenarios" style="background:#fff">
+  <div class="container container--wide">
+    <p class="section-label">02 适用场景</p>
+    <h2>谁最适合用？<span class="sub">四类典型场景，看看你属于哪一种</span></h2>
+    <div class="scenarios">
+      <div class="scenario">
+        <img class="scenario-bg" src="慢病.png" alt="">
+        <div class="scenario-gradient"></div>
+        <img class="scenario-icon" src="慢病用药.png" alt="">
+        <div class="scenario-body">
+          <h3>慢病续方<em>，不再次次跑医院</em></h3>
+          <p>高血压、糖尿病等稳定慢性病续方——高频、刚性、低复杂度。视频复诊完成医保续方，药品顺丰到家。</p>
+        </div>      </div>
+      <div class="scenario">
+        <img class="scenario-bg" src="小病.png" alt="">
+        <div class="scenario-gradient"></div>
+        <img class="scenario-icon" src="轻症.png" alt="">
+        <div class="scenario-body">
+          <h3>轻症小病<em>，先问医生不纠结</em></h3>
+          <p>感冒、过敏、皮肤不适等常见轻症，先视频请医生初步评估，快速判断是否需要线下处置。</p>
+        </div>      </div>
+      <div class="scenario">
+        <img class="scenario-bg" src="报告解读.png" alt="">
+        <div class="scenario-gradient"></div>
+        <img class="scenario-icon" src="报告.png" alt="">
+        <div class="scenario-body">
+          <h3>报告解读<em>，心中有数不焦虑</em></h3>
+          <p>体检报告看不懂、药品用法拿不准——视频请医生专业解读与用药指导，消除疑虑。</p>
+        </div>      </div>
+      <div class="scenario">
+        <img class="scenario-bg" src="出差.png" alt="">
+        <div class="scenario-gradient"></div>
+        <img class="scenario-icon" src="差旅.png" alt="">
+        <div class="scenario-body">
+          <h3>出差倒班<em>，保障不掉线</em></h3>
+          <p>出差在外、参保地与工作地分离、深夜倒班不适——全时在线，全程走医保结算，无需全额垫付。</p>
+        </div>      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 三、就诊流程 + 界面预览（合并交互） -->
+<section class="flow-section" id="flow">
+  <div class="container container--wide">
+    <p class="section-label">03 就诊流程</p>
+    <h2>三步完成医保问诊开药</h2>
+
+    <div class="flow-layout">
+
+      <!-- 左：步骤列表 -->
+      <div class="flow-stages" id="flow-stages">
+
+        <!-- Stage 1 -->
+        <div class="flow-stage">
+          <div class="flow-stage-header">
+            <div class="flow-stage-marker s1">S1</div>
+            <div class="flow-stage-title">医保授权挂号</div>
+          </div>
+          <div class="flow-steps">
+            <div class="flow-step active" data-img="0" data-caption="医保码视频就诊入口">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">进入「医保码视频就诊」</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="1" data-caption="填写挂号信息">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">填写挂号信息</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="2" data-caption="选择医保支付方式">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">选择医保支付方式</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="3" data-caption="发起医保授权">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">发起医保授权</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="4" data-caption="同意授权确认">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">同意授权确认</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="5" data-caption="完成挂号费医保结算">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">完成挂号费医保结算</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="6" data-caption="点击立即与医生视频">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">点击「立即与医生视频」</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="flow-stage">
+          <div class="flow-stage-header">
+            <div class="flow-stage-marker s2">S2</div>
+            <div class="flow-stage-title">视频问诊开方</div>
+          </div>
+          <div class="flow-steps">
+            <div class="flow-step" data-img="7" data-caption="医生在线面对面问诊">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">医生在线面对面问诊</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="8" data-caption="推送用药处方">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">问诊结束，推送用药处方</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="9" data-caption="点击医保购药，确认邮寄地址">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">点击「医保购药」，确认邮寄地址</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="10" data-caption="选择医保支付">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">选择「医保支付」</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+            <div class="flow-step" data-img="11" data-caption="确认支付自付部分">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">确认支付自付部分</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="flow-stage">
+          <div class="flow-stage-header">
+            <div class="flow-stage-marker s3">S3</div>
+            <div class="flow-stage-title">药品履约交付</div>
+          </div>
+          <div class="flow-steps">
+            <div class="flow-step" data-img="12" data-caption="运费到付，坐等收药">
+              <div class="flow-step-dot"></div>
+              <div>
+                <div class="flow-step-text">顺丰直发配送上门，运费到付</div>
+                <div class="step-img-hint">↗ 查看界面</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 右：界面预览 -->
+      <div class="flow-phone" id="flow-phone">
+        <div class="screen-card">
+          <img id="phone-img" src="img-01.jpg" alt="界面预览" class="loaded">
+        </div>
+        <div class="phone-caption" id="phone-caption">医保码视频就诊入口</div>
+        <div class="phone-progress">
+          <div class="phone-progress-bar" id="phone-progress-bar" style="width:7.7%"></div>
+        </div>
+        <div class="phone-nav">
+          <button id="btn-prev" disabled="" aria-label="上一步">‹</button>
+          <span class="phone-counter" id="phone-counter">1 / 13</span>
+          <button id="btn-next" aria-label="下一步">›</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 四、高频问答 -->
+<section class="section" id="faq">
+  <div class="container">
+    <p class="section-label">04 常见问题</p>
+    <h2>高频问答</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">医保视频门诊支持哪些科室？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>当前已开通中医科、中西医结合科、内科、外科，后续将陆续上线全科、妇产科。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">哪些人群可以使用本服务？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>目前仅限职工基本医疗保险参保人使用（含退休人员），需通过本人医保电子凭证完成身份核验与授权。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">线上开药可以使用医保结算吗？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>可以。医生优先选择医保目录内药品，按参保地政策通过统筹基金与个人账户实时结算，个人仅承担自付部分。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">报销比例和线下医院一样吗？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>完全一致。医保目录内的药品和诊疗项目，报销标准与线下就诊相同。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">医保视频门诊最长能开多久的药？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>根据《处方管理办法》，处方一般不超过 7 日用量；某些慢性病、老年病或特殊情况，可适当延长，不超过一个月用量。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">医保视频门诊开药有什么限制？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>互联网门诊不能开具精神类、助眠类（如安眠药）和注射类冷链药物（如司美格鲁肽、胰岛素）等。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">药品可以快递吗？能寄到外地吗？快递费谁出？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>可以。点击「医保购药」后填写收件地址，药品经顺丰发出，预计 1–3 个工作日送达。快递费用到付，由收件人承担。可寄至外地。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">未就诊可以退号吗？如何退费？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>可以。未就诊患者可直接在线上完成退号，费用按原支付路径返还。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">异地就医如何使用医保结算？<span class="arrow">▾</span></button>
+        <div class="faq-a">
+          <p>微信搜索「国家异地就医备案」小程序 → 点击「异地就医备案申请」→ 选择参保地 → 就医地选北京 → 备案类型选「其他跨省临时外出就医人员」→ 提交备案材料。</p>
+          <p>备案有效期不少于 6 个月，有效期内可正常使用跨省异地就医直接结算。</p>
+          <div class="note"><strong>深圳市</strong>：其他临时外出就医人员免备案直接结算，按市内就医支付比例的 80%。</div>
+          <div class="note"><strong>上海市</strong>：需提前备案，报销比例可低于参保地同级别机构，降幅不超过 20 个百分点。</div>
+          <div class="note"><strong>广州市</strong>：需提前备案，异地普通门诊须选点就医。规则与本市一致："1 大 1 小 1 中医"。专科医疗机构就医不受选点限制。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">医保视频门诊费用能否累计医保年度起付线？<span class="arrow">▾</span></button>
+        <div class="faq-a"><p>可以。医保视频门诊费用与线下门诊性质一致，自动计入参保地门诊年度累计，按当地政策计算起付线和封顶线。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2>随时在线，医保直付</h2>
+    <p>7×24 小时医保视频门诊，挂号费、药品费按参保地政策实时结算</p>
+    <a href="#top" class="cta-button">立即体验</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">职工医保视频门诊服务 · 仅供参考，具体以参保地政策为准</div>
+</footer>
+
+<script>
+(function(){
+  // ===== Image sources (mapped to actual project files) =====
+  var imgs = [
+    'img-01.jpg',
+    'img-02.jpg',
+    'img-03.jpg',
+    'img-04.jpg',
+    'img-05.jpg',
+    'img-06.jpg',
+    'img-07.jpg',
+    'img-08.jpg',
+    'img-09.jpg',
+    'img-10.jpg',
+    'img-11.jpg',
+    'img-12.jpg',
+    'img-13.jpg'
+  ];
+
+  var total = imgs.length;
+  var currentIdx = 0;
+
+  var phoneImg = document.getElementById('phone-img');
+  var phoneCaption = document.getElementById('phone-caption');
+  var phoneCounter = document.getElementById('phone-counter');
+  var phoneBar = document.getElementById('phone-progress-bar');
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
+
+  var steps = document.querySelectorAll('.flow-step');
+
+  function showStep(idx) {
+    if (idx < 0 || idx >= total) return;
+    currentIdx = idx;
+
+    // Update image
+    phoneImg.classList.remove('loaded');
+    phoneImg.classList.add('loading');
+    var newSrc = imgs[idx];
+    var tmp = new Image();
+    tmp.onload = function() {
+      phoneImg.src = newSrc;
+      phoneImg.classList.remove('loading');
+      phoneImg.classList.add('loaded');
+    };
+    tmp.onerror = function() {
+      phoneImg.src = newSrc;
+      phoneImg.classList.remove('loading');
+    };
+    tmp.src = newSrc;
+
+    // Update caption from active step
+    var activeStep = document.querySelector('.flow-step[data-img="' + idx + '"]');
+    if (activeStep && activeStep.dataset.caption) {
+      phoneCaption.textContent = activeStep.dataset.caption;
+    }
+
+    // Update counter & progress
+    phoneCounter.textContent = (idx + 1) + ' / ' + total;
+    phoneBar.style.width = ((idx + 1) / total * 100) + '%';
+
+    // Update buttons
+    btnPrev.disabled = idx <= 0;
+    btnNext.disabled = idx >= total - 1;
+
+    // Update step highlights
+    steps.forEach(function(s) {
+      var sIdx = parseInt(s.dataset.img);
+      s.classList.toggle('active', sIdx === idx && s === getFirstStepWithImg(idx));
+    });
+  }
+
+  function getFirstStepWithImg(idx) {
+    for (var i = 0; i < steps.length; i++) {
+      if (parseInt(steps[i].dataset.img) === idx) return steps[i];
+    }
+    return null;
+  }
+
+  // Step click
+  steps.forEach(function(step) {
+    step.addEventListener('click', function() {
+      showStep(parseInt(step.dataset.img));
+    });
+  });
+
+  // Prev/Next
+  btnPrev.addEventListener('click', function() { showStep(currentIdx - 1); });
+  btnNext.addEventListener('click', function() { showStep(currentIdx + 1); });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); showStep(currentIdx + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); showStep(currentIdx - 1); }
+  });
+
+  // Initialize
+  showStep(0);
+
+  // ===== FAQ =====
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.faq-item');
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(el) { el.classList.remove('open'); });
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ===== Nav scroll =====
+  var sections = document.querySelectorAll('section[id], .flow-section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  function updateNav() {
+    var scrollY = window.scrollY + 120;
+    sections.forEach(function(sec) {
+      var top = sec.offsetTop;
+      var height = sec.offsetHeight;
+      var id = sec.getAttribute('id');
+      if (scrollY >= top && scrollY < top + height) {
+        navLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+})();
+</script>
+
+
+
+</body></html>

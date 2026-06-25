@@ -1,0 +1,108 @@
+<!-- 医疗装饰性SVG图形 -->
+<svg style="display: none;">
+  <!-- 心电图图标 -->
+  <symbol id="ecg-icon" viewBox="0 0 24 24">
+    <path d="M2 3h3v15h3v-8h3v8h3v-15h3v15h3v-8h3"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- 胶囊药丸图标 -->
+  <symbol id="pill-icon" viewBox="0 0 24 24">
+    <rect x="7" y="5" width="10" height="14" rx="7"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+    <line x1="12" y1="5" x2="12" y2="19"
+          stroke="currentColor"
+          stroke-width="2"/>
+  </symbol>
+
+  <!-- 听诊器图标 -->
+  <symbol id="stethoscope-icon" viewBox="0 0 24 24">
+    <path d="M12 2C13 2 14 3 14 4V6C14 7 13 8 12 8C11 8 10 7 10 6V4C10 3 11 2 12 2ZM19 13C19 15.21 17.21 17 15 17C13.5 17 12.2 16.2 11.4 15H10.6C9.8 16.2 8.5 17 7 17C4.79 17 3 15.21 3 13C3 11.5 3.8 10.2 5 9.4V6C5 4.9 5.9 4 7 4C8.1 4 9 4.9 9 6V9.6C9.2 9.8 9.4 10 9.6 10.4C9.8 10.8 10 11.2 10 11.6V16C10 16.55 10.45 17 11 17S12 16.55 12 16V11.6C12 11.2 12.2 10.8 12.4 10.4C12.6 10 12.8 9.8 13 9.6V6C13 4.9 13.9 4 15 4C16.1 4 17 4.9 17 6V9.4C18.2 10.2 19 11.5 19 13Z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+  </symbol>
+
+  <!-- 医疗十字图标 -->
+  <symbol id="medical-cross" viewBox="0 0 24 24">
+    <path d="M12 2L12 22M2 12L22 12"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"/>
+  </symbol>
+
+  <!-- 医生图标 -->
+  <symbol id="doctor-icon" viewBox="0 0 24 24">
+    <circle cx="12" cy="8" r="5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"/>
+    <path d="M3 21C3 16.58 7.58 13 12 13C16.42 13 21 16.58 21 21"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+    <path d="M12 3L12 6M9 4.5L15 4.5"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"/>
+  </symbol>
+
+  <!-- 药瓶图标 -->
+  <symbol id="medicine-bottle" viewBox="0 0 24 24">
+    <rect x="8" y="4" width="8" height="16" rx="2"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+    <rect x="10" y="2" width="4" height="3"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+    <line x1="10" y1="10" x2="14" y2="10"
+          stroke="currentColor"
+          stroke-width="2"/>
+    <line x1="10" y1="14" x2="14" y2="14"
+          stroke="currentColor"
+          stroke-width="2"/>
+  </symbol>
+
+  <!-- 24小时时钟图标 -->
+  <symbol id="clock-24h" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"/>
+    <path d="M12 2V12L16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"/>
+  </symbol>
+
+  <!-- 顺丰快递图标 -->
+  <symbol id="delivery-icon" viewBox="0 0 24 24">
+    <rect x="3" y="9" width="18" height="12" rx="2"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+    <path d="M8 15L12 19L16 15"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <circle cx="8" cy="9" r="3"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"/>
+    <circle cx="16" cy="9" r="3"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"/>
+  </symbol>
+</svg>

@@ -1,0 +1,6 @@
+.DS_Store
+.od-skills/
+.playwright-cli/
+.workbuddy/
+reference-*.png
+*.artifact.json
